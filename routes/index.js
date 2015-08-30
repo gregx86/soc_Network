@@ -21,4 +21,7 @@ module.exports = function(app){
     });
 
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master

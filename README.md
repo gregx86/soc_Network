@@ -12,7 +12,7 @@
   {
     "name": "Grisha",
     "sourname": "Rozhnov",
-    "email": "gr@gmail.com"
+    "email": "gr@gmail.com",
     "age": 29,
     "posts": [
       {

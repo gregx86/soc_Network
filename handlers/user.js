@@ -1,28 +1,29 @@
 var User = require('../models/userModel.js');
+
 var Userhand = function(){
-    this.create = function(req, res, next){
-            var user = new User(req.body);
+    this.create = function(req, res){
+        var user = new User(req.body);
 
-            user.save();
-            res.status(201).send(user);
+        user.save();
+        res.status(201).send(user);
 
-        };
-    this.getAll = function(req, res, next){
+    };
+    this.getAll = function(req, res){
 
-            var query = {};
+        var query = {};
 
-            if(req.query.name)
-            {
-                query.name = req.query.name;
+        if(req.query.name)
+        {
+            query.name = req.query.name;
+        }
+        User.find(query, function (err, users){
+            if(err) {
+                res.status(500).send(err);
+            } else {
+                res.json(users);
             }
-            User.find(query, function (err, users){
-                if(err) {
-                    res.status(500).send(err);
-                } else {
-                    res.json(users);
-                }
-            });
-        };
+        });
+    };
 
     this.getById = function(req, res){
 
@@ -30,19 +31,20 @@ var Userhand = function(){
 
         };
 
+
     this.updateUser = function(req, res){
-            req.user.name = req.body.name;
-            req.user.sourname = req.body.sourname;
-            req.user.email = req.body.email;
-            req.user.age = req.body.age;
-            req.user.save(function(err) {
-                if(err){
-                    res.status(500).send(err);
-                } else {
-                    res.json(req.user);
-                }
-            });
-        };
+        req.user.name = req.body.name;
+        req.user.sourname = req.body.sourname;
+        req.user.email = req.body.email;
+        req.user.age = req.body.age;
+        req.user.save(function(err) {
+            if(err){
+                res.status(500).send(err);
+            } else {
+                res.json(req.user);
+            }
+        });
+    };
 
     this.updateParam = function(req, res){
         if(req.body._id){
@@ -61,7 +63,7 @@ var Userhand = function(){
         });
     };
 
-    this.deleteUser = function(req, res){
+    this.deleteUser = function(req, res) {
             req.user.remove(function(err){
                 if(err){
                     res.status(500).send(err);

@@ -12,12 +12,13 @@ module.exports = function(app){
 
     userRouter = require('../routes/user.js')(User);
 
+
     app.use('/users', userRouter);
 
 
 
     app.get('/', function(req, res){
-        res.send('welcome to my Api!');
+        res.send('welcome to my Soc Network!');
     });
 
 };

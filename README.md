@@ -1,8 +1,6 @@
 ##### This application will work on Windows if you run mongod
 
-**get All users**, *localhost:3030/users/*
 
-**post user**, *localhost:3030/users/*
 
 ##### Sample for post in JSON
 
@@ -24,6 +22,10 @@
 ```
 #### User routes
 
+**get All users**, *localhost:3030/users/*
+
+**post user**, *localhost:3030/users/*
+
 **get user**, *localhost:3030/users/id*
 
 **put**,  *localhost:3030/users/id*
@@ -36,7 +38,7 @@
 
 #### Post routes
 
-**get post**,  *localhost:3030/users/id/posts/*
+**get posts**,  *localhost:3030/users/id/posts/*
 
 **get put**,  *localhost:3030/users/id/posts/postId*
 

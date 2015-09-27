@@ -23,7 +23,7 @@ var UserHandler = function(){
 
         User
             .find()
-            .populate('posts', '-_id')
+            .populate('posts')
             .lean()
             .exec(function (err, response){
                 if (err){
@@ -33,25 +33,33 @@ var UserHandler = function(){
             });
 
     };
-/*
-    this.getById = function(req, res){
 
-            res.json(req.user);
+    this.getById = function(req, res, next){
+            var id = req.params.id;
 
+            User.findById(id, function (err, user) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(user);
+            });
         };
 
+    this.updateUser = function(req, res, next){
+            var id = req.params.id;
 
-    this.updateUser = function(req, res){
-        req.user.name = req.body.name;
-        req.user.sourname = req.body.sourname;
-        req.user.email = req.body.email;
-        req.user.age = req.body.age;
-        req.user.save(function(err) {
-            if(err){
-                res.status(500).send(err);
-            } else {
-                res.json(req.user);
-            }
+            User.findById(id, function(err, user){
+                user.name = req.body.name;
+                user.sourname = req.body.sourname;
+                user.email = req.body.email;
+                user.age = req.body.age;
+                user.save(function(err) {
+                if(err){
+                    return next(err);
+                } else {
+                    res.status(200).send(user);
+                }
+            });
         });
     };
 
@@ -81,7 +89,6 @@ var UserHandler = function(){
                 }
             });
         };
- */
 };
 
 module.exports = UserHandler;

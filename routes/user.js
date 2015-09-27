@@ -24,9 +24,9 @@ module.exports = function(app){
 
     userRouter.post('/', userHandler.create);
     userRouter.get('/', userHandler.getAll);
-  /*  //userRouter.get('/:userId', userHandler.getById);
+    userRouter.get('/:userId', userHandler.getById);
     userRouter.put('/:userId',userHandler.updateUser);
-    userRouter.patch('/:userId',userHandler.updateParam);
+/*    userRouter.patch('/:userId',userHandler.updateParam);
     userRouter.delete('/:userId',userHandler.deleteUser);
 
     userRouter.get('/:userId/posts', postHandler.showPosts);

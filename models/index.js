@@ -1,1 +1,1 @@
-require('./userModel.js');
+require('./user.js');

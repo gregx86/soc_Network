@@ -1,12 +1,13 @@
-var express = require('express');
 
-var routes = function(User){
-    var UserHandler = require('../handlers/user');
-    var PostHandler = require('../handlers/post');
+module.exports = function(app){
+    var express = require('express');
+    var _UserHandler = require('../handlers/user');
+//    var PostHandler = require('../handlers/post');
     var userRouter = express.Router();
-    var userHandler = new UserHandler();
-    var postHandler = new PostHandler();
+    var userHandler = new _UserHandler(app);
+//    var postHandler = new PostHandler();
 
+    /*
     userRouter.use('/:userId', function(req, res, next) {
         User.findById(req.params.userId, function (err, user){
             if(err) {
@@ -19,11 +20,11 @@ var routes = function(User){
             }
 
         });
-    });
+    }); */
 
     userRouter.post('/', userHandler.create);
     userRouter.get('/', userHandler.getAll);
-    userRouter.get('/:userId', userHandler.getById);
+  /*  //userRouter.get('/:userId', userHandler.getById);
     userRouter.put('/:userId',userHandler.updateUser);
     userRouter.patch('/:userId',userHandler.updateParam);
     userRouter.delete('/:userId',userHandler.deleteUser);
@@ -32,8 +33,6 @@ var routes = function(User){
     userRouter.post('/:userId/posts',postHandler.createPost);
     userRouter.put('/:userId/posts/:postId',postHandler.updatePost);
     userRouter.delete('/:userId/posts/:postId', postHandler.deletePost);
-
+*/
     return userRouter;
 };
-
-module.exports = routes;

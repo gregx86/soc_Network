@@ -1,8 +1,9 @@
 //Post handlers
 
-var User = require('../models/userModel.js');
+var User = require('../models/user');
+var Post = require('../models/user');
 
-var Post = function() {
+var PostHandler = function() {
     this.showPosts = function(req, res) {
         res.json(req.user.posts);
 
@@ -66,4 +67,4 @@ var Post = function() {
     };
 };
 
-module.exports = Post;
+module.exports = PostHandler;

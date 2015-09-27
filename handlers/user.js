@@ -1,30 +1,39 @@
-var User = require('../models/userModel.js');
+var mongoose = require('mongoose');
+//var userSchema = require('../models/user');
+//var postSchema = require('../models/user');
+var User = mongoose.model('User');
+var Post = mongoose.model('Post');
+//var Post = require('../models/user.js');
 
-var Userhand = function(){
-    this.create = function(req, res){
-        var user = new User(req.body);
+var UserHandler = function(){
+    this.create = function(req, res, next){
+        var body = req.body;
+        var user = new User(body);
 
-        user.save();
-        res.status(201).send(user);
-
-    };
-    this.getAll = function(req, res){
-
-        var query = {};
-
-        if(req.query.name)
-        {
-            query.name = req.query.name;
-        }
-        User.find(query, function (err, users){
-            if(err) {
-                res.status(500).send(err);
-            } else {
-                res.json(users);
+        user.save(function (err, user) {
+            if (err) {
+                return next(err);
             }
+            res.status(200).send(user);
         });
     };
 
+    this.getAll = function(req, res, next){
+
+
+        User
+            .find()
+            .populate('posts', '-_id')
+            .lean()
+            .exec(function (err, response){
+                if (err){
+                    return next(err);
+                }
+                res.status(200).send(response);
+            });
+
+    };
+/*
     this.getById = function(req, res){
 
             res.json(req.user);
@@ -72,6 +81,7 @@ var Userhand = function(){
                 }
             });
         };
+ */
 };
 
-module.exports = Userhand;
+module.exports = UserHandler;

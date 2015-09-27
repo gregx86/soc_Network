@@ -1,14 +1,24 @@
 var express = require('express');
-var mongoose = require('mongoose');
-
-
-var db = mongoose.connect('mongodb://localhost/userDb');
-
-//var User = require('./models/userModel.js');
 
 var app = express();
 
+var mongoose = require('mongoose');
+
+require('./models');
+
 var port = process.env.PORT || 3030;
+
+mongoose.connect('mongodb://localhost/userDb');
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:')
+);
+
+db.once('open', function(){
+    console.log('connected');
+});
+
+
 
 //'============ Load routes ==============';
 require('./routes')(app);

@@ -23,8 +23,7 @@ var UserHandler = function(){
 
         User
             .find()
-            .populate('posts')
-            .lean()
+            .populate('posts','title')
             .exec(function (err, response){
                 if (err){
                     return next(err);
@@ -35,22 +34,26 @@ var UserHandler = function(){
     };
 
     this.getById = function(req, res, next){
-            var id = req.params.id;
+            var id = req.params.userId;
 
             User.findById(id, function (err, user) {
                 if (err) {
                     return next(err);
+                }else if(user) {
+                    res.status(200).send(user);
+
+                } else {
+                    res.status(404).send('User not found');
                 }
-                res.status(200).send(user);
             });
         };
 
     this.updateUser = function(req, res, next){
-            var id = req.params.id;
+            var id = req.params.userid;
 
             User.findById(id, function(err, user){
-                user.name = req.body.name;
-                user.sourname = req.body.sourname;
+                user.name.first = req.body.name.first;
+                user.name.last = req.body.name.last;
                 user.email = req.body.email;
                 user.age = req.body.age;
                 user.save(function(err) {
@@ -63,29 +66,15 @@ var UserHandler = function(){
         });
     };
 
-    this.updateParam = function(req, res){
-        if(req.body._id){
-            delete req.body._id;
-        }
-        for(var key in req.body){
-            req.user[key] = req.body[key];
-        }
 
-        req.user.save(function(err) {
-            if(err){
-                res.status(500).send(err);
-            } else {
-                res.json(req.user);
-            }
-        });
-    };
+    this.deleteUser = function(req, res, next) {
+        var id = req.params.userid;
 
-    this.deleteUser = function(req, res) {
-            req.user.remove(function(err){
+            User.findByIdAndRemove(id, function(err, response){
                 if(err){
-                    res.status(500).send(err);
+                    return next(err);
                 } else {
-                    res.status(204).send('User removed');
+                    res.status(204).send(response);
                 }
             });
         };

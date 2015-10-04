@@ -3,18 +3,21 @@ var Schema = mongoose.Schema;
 
 
 var UserSchema = new Schema({
-    name: String,
-    sourname: String,
-    email: String,
+    name: {
+        first: {type: String},
+        last: {type: String}
+    },
+    email: {type: String, unique: true},
     age: Number,
-    posts: [{ type: Number, ref: 'Post'}],
+    dateOfBirth: {type: Date, default: Date.now},
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Post'}],
     createdAt: {type: Date, default: Date.now},
     isAdmin: Boolean
 });
 
 var PostSchema = new Schema ({
-    _creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    _id: Number,
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User',required: true},
+    //_id: Number,
     title: String,
     description: String,
     created_at: {type: Date, default: Date.now}
@@ -24,5 +27,6 @@ var PostSchema = new Schema ({
 //var Post = mongoose.model('Post', PostSchema);
 
 //module.exports =
-mongoose.model('User', UserSchema);
-mongoose.model('Post', PostSchema);
+var User = mongoose.model('User', UserSchema);
+var Post = mongoose.model('Post', PostSchema);
+

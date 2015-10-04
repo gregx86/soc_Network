@@ -1,67 +1,67 @@
 //Post handlers
+var mongoose = require('mongoose');
 
-var User = require('../models/user');
-var Post = require('../models/user');
+var User = mongoose.model('User');
+var Post = mongoose.model('Post');
 
 var PostHandler = function() {
-    this.showPosts = function(req, res) {
-        res.json(req.user.posts);
+    this.showPosts = function(req, res, next) {
+       // res.json(req.user.posts);
+        var id = req.params.userId;
+        console.log(id);
+
+        Post.find({createdBy: id })
+            .populate('createdBy')
+            .exec(function (err, response){
+                if (err){
+                    return next(err);
+                }
+                res.status(200).send(response);
+            });
 
     };
 
-    this.createPost = function(req, res) {
-        req.user.posts.push(req.body);
-
-        req.user.save(function(err) {
-            if(err){
-                res.status(500).send(err);
-            } else {
-                res.json(req.user);
-            }
+    this.createPost = function(req, res, next) {
+        //var post = new Post(req.body);
+        var post = new Post({
+            title: req.body.title,
+            description: req.body.description,
+            createdBy: req.params.userId
         });
-    };
+
+        post.save(function (err, post) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(post);
+            });
+     };
 
     // update post
-    this.updatePost = function(req, res) {
+    this.updatePost = function(req, res, next) {
         var id = req.params.postId;
 
-        for (var i = 0; i < req.user.posts.length; i++) {
-            if(id == req.user.posts[i]._id){
-                req.user.posts[i].title = req.body.title;
-                req.user.posts[i].description = req.body.description;
-            } else {
-                res.send("No post on this Id");
-            }
-        }
-
-        req.user.save(function(err) {
+        Post.findById(id, function(err, post){
+            post.title = req.body.title || post.title ;
+            post.description = req.body.description || post.description;
+            post.save(function(err) {
             if(err){
-                res.status(500).send(err);
+                return next(err);
             } else {
-                res.json(req.user);
+                res.status(200).send(post);
             }
+        });
         });
     };
 
     //delete post
-    this.deletePost = function(req, res) {
+    this.deletePost = function(req, res, next) {
         var id = req.params.postId;
-        req.user.posts.id(id).remove();
-
-        /*
-
-         for (var i = 0; i < req.user.posts.length; i++) {
-         if(id == req.user.posts[i]._id){
-         req.user.posts.splice(i, 1);
-         }
-         }
-         */
-
-        req.user.save(function(err) {
+        Post.findByIdAndRemove(id, function(err, post){
             if(err){
-                res.status(500).send(err);
+                return next(err);
             } else {
-                res.json(req.user);
+                res.status(204).send(post);
             }
         });
     };

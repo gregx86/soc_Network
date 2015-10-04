@@ -3,7 +3,7 @@ module.exports = function(app){
     var bodyParser = require('body-parser');
 
     var userRouter = require('./user')(app);
-    //var postRouter = require('./post')(app);
+    var postRouter = require('./post')(app);
 
 
     app.use(bodyParser.urlencoded({extended: true}));
@@ -11,7 +11,7 @@ module.exports = function(app){
 
 
     app.use('/users', userRouter);
-    //app.use('/posts', postRouter);
+    app.use('/posts', postRouter);
 
 
 

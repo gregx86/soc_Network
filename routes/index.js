@@ -9,14 +9,18 @@ module.exports = function(app){
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
 
-
     app.use('/users', userRouter);
     app.use('/posts', postRouter);
 
 
+    app.get('/', function(req, res, next) {
+        res.sendfile('index.html');
+    });
 
-    app.get('/', function(req, res){
-        res.send('welcome to my Soc Network!');
+    app.use(function(err, req, res, next) {
+        var status = err.status || 500;
+
+        res.status(status).send(err);
     });
 
 };

@@ -3,14 +3,14 @@ module.exports = function(app){
     var bodyParser = require('body-parser');
 
     var userRouter = require('./user')(app);
-    var postRouter = require('./post')(app);
+    //   var postRouter = require('./post')(app);
 
 
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
 
     app.use('/users', userRouter);
-    app.use('/posts', postRouter);
+   // app.use('/posts', postRouter);
 
 
     app.get('/', function(req, res, next) {

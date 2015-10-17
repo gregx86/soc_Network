@@ -1,0 +1,25 @@
+{
+  "name": "social",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Grisha Rozhnov"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/grisha-rainbow/soc_Network",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/js/libs/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.2.3",
+    "requirejs": "~2.1.20",
+    "text": "~2.0.14",
+    "jquery": "~2.1.4"
+  }
+}

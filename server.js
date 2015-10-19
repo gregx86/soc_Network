@@ -4,6 +4,10 @@ var mongoose = require('mongoose');
 
 var app = express();
 var db;
+
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var port = process.env.PORT || 3030;
 
 require('./models');
@@ -16,7 +20,26 @@ db.once('open', function(){
     //'============ Load routes ==============';
     require('./routes')(app);
 
+    app.use(cookieParser());
+    app.use(session({
+        secret: "secretKey",
+        cookie: {
+            "path": "/",
+            "httpOnly": true,
+            "maxAge": null
+        },
+        store: new MongoStore({mongooseConnection: mongoose.connection}),
+        resave: false,
+        saveUninitialized: true
+
+    }));
+
     app.use(express.static(__dirname + '/public'));
+
+    app.use(function(req, res, next){
+        req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+        console.log("Visits: " + req.session.numberOfVisits);
+    });
 
 
     app.listen(port, function() {

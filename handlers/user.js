@@ -49,12 +49,13 @@ var UserHandler = function(){
         };
 
     this.updateUser = function(req, res, next){
-            var id = req.params.userid;
+            var id = req.params.userId;
 
             User.findById(id, function(err, user){
                 user.name.first = req.body.name.first;
                 user.name.last = req.body.name.last;
                 user.email = req.body.email;
+                user.password = req.body.password;
                 user.age = req.body.age;
                 user.save(function(err) {
                 if(err){

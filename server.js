@@ -18,8 +18,6 @@ db = mongoose.connection;
 
 db.once('open', function(){
     //'============ Load routes ==============';
-    require('./routes')(app);
-
     app.use(cookieParser());
     app.use(session({
         secret: "secretKey",
@@ -34,12 +32,14 @@ db.once('open', function(){
 
     }));
 
+    require('./routes')(app);
+
     app.use(express.static(__dirname + '/public'));
 
-    app.use(function(req, res, next){
-        req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
-        console.log("Visits: " + req.session.numberOfVisits);
-    });
+    //app.use(function(req, res, next){
+    //    req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+    //    console.log("Visits: " + req.session.numberOfVisits);
+    //});
 
 
     app.listen(port, function() {

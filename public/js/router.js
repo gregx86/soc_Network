@@ -6,6 +6,7 @@ define([
 ], function(RegisterView, LoginView, UserCollection, UserView ){
     var Router = Backbone.Router.extend({
         currentView: null,
+
         routes: {
             "login": "login",
             "register": "register",

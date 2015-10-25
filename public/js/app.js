@@ -1,8 +1,9 @@
 define(['router'], function(Router){
-    function init(){
+   var init = function(){
         var router = new Router();
         checkLogin(runApplication);
-        /*var fragment = Backbone.history.fragment;
+
+         /*var fragment = Backbone.history.fragment;
         var url = window.location.hash;
 
         Backbone.history.start({silent: true});
@@ -14,9 +15,9 @@ define(['router'], function(Router){
             Backbone.history.navigate(url, {trigger: true});
         }
         */
-   };
+    };
 
-    var checkLogin = function(callback) {
+   var checkLogin = function(callback) {
         $.ajax("/account/authenticated", {
             method: "GET",
             success: function() {
@@ -36,8 +37,6 @@ define(['router'], function(Router){
         }
         Backbone.history.start();
     };
-
-
 
     return {
         init: init

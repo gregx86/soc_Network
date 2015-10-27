@@ -1,14 +1,18 @@
-<table>
+<table class="table table-striped">
     <thead>
     <th>FirstName</th>
     <th>LastName</th>
+    <th>Email</th>
     <th>DateOfBirth</th>
     </thead>
     <% users.forEach(function(user){ %>
-    <tr>
+    <tr id="<%= user._id %>">
         <td><%=user.name.first%></td>
         <td><%=user.name.last%></td>
+        <td><%=user.email%></td>
         <td><%=user.dateOfBirth%></td>
+        <td><button class="editBtn">Edit</button></td>
+        <td><button class="removeBtn">Remove</button></td>
     </tr>
     <%})%>
 </table>

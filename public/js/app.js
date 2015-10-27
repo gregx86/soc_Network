@@ -33,7 +33,7 @@ define(['router'], function(Router){
         if (!authenticated) {
             window.location.hash = 'login';
         } else {
-            window.location.hash = 'users';
+            window.location.hash = 'index';
         }
         Backbone.history.start();
     };

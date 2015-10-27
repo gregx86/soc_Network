@@ -1,0 +1,11 @@
+<table class="table table-striped">
+    <thead>
+    <th>title</th>
+    <th>description</th>
+    </thead>
+    <% posts.forEach(function(post){ %>
+        <td><%=post.title%></td>
+        <td><%=post.description%></td>
+   </tr>
+    <%})%>
+</table>

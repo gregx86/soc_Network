@@ -31,13 +31,14 @@ module.exports = function(app){
             return;
         }
 
-        UserAccount.login(email, password, function(success) {
-            if( !success ) {
+        UserAccount.login(email, password, function(account) {
+            if( !account ) {
                 res.sendStatus(401);
                 return;
             }
             console.log('login was successful');
             req.session.loggedIn = res.locals.loggedIn = true;
+            req.session.accountId = account._id;
             res.sendStatus(200);
         });
     });

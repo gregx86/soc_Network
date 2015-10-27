@@ -8,7 +8,17 @@ var Post = mongoose.model('Post');
 var UserHandler = function(){
     this.create = function(req, res, next){
         var body = req.body;
-        var user = new User(body);
+        var firstName = body.firstName;
+        var lastName = body.lastName;
+
+        var data = {
+            name: {
+                first: firstName,
+                last: lastName
+            }
+        };
+
+        var user = new User(data);
 
         user.save(function (err, user) {
             if (err) {
@@ -17,6 +27,20 @@ var UserHandler = function(){
             res.status(200).send(user);
         });
     };
+
+    /*
+     this.create = function(req, res, next){
+     var body = req.body;
+     var user = new User(body);
+
+     user.save(function (err, user) {
+     if (err) {
+     return next(err);
+     }
+     res.status(200).send(user);
+     });
+     };
+     */
 
     this.getAll = function(req, res, next){
 
@@ -69,7 +93,7 @@ var UserHandler = function(){
 
 
     this.deleteUser = function(req, res, next) {
-        var id = req.params.userid;
+        var id = req.params.userId;
 
             User.findByIdAndRemove(id, function(err, response){
                 if(err){
